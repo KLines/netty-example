@@ -60,4 +60,12 @@ public class CustomMsg {
         this.body = body;
     }
 
+    @Override
+    public String toString() {
+        return String.format("type:%s flag:%s len:%s data:%s",
+                type,
+                flag,
+                length,
+                body);
+    }
 }

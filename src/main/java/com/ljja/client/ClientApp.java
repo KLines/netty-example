@@ -57,6 +57,8 @@ public class ClientApp {
 
                 clientChannel.writeAndFlush(msgEntity);
 
+                System.out.println(msgBody);
+
                 //currentCount -= 1;
             }
 

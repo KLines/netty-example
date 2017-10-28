@@ -22,9 +22,10 @@ public class CustomEncoder extends MessageToByteEncoder<CustomMsg> {
 
         byte[] bodyBytes = body.getBytes(Charset.forName(Encoding));
 
-        out.writeByte(msg.getType());
-        out.writeByte(msg.getFlag());
-        out.writeInt(bodyBytes.length);
-        out.writeBytes(bodyBytes);
+        //NSG:|1|1|4|BODY|
+        out.writeByte(msg.getType());      //系统编号
+        out.writeByte(msg.getFlag());      //信息标志
+        out.writeInt(bodyBytes.length);   //消息长度
+        out.writeBytes(bodyBytes);         //消息正文
     }
 }

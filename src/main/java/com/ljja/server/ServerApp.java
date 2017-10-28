@@ -9,17 +9,27 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 import java.net.InetSocketAddress;
 
 /**
  * http://blog.csdn.net/linuu/article/details/51371595
+ * http://blog.163.com/linfenliang@126/blog/static/127857195201210821145721/
  */
 public class ServerApp {
 
+    /*
+    maxFrameLength：解码的帧的最大长度
+    lengthFieldOffset ：长度属性的起始位（偏移位），包中存放有整个大数据包长度的字节，这段字节的其实位置
+    lengthFieldLength：长度属性的长度，即存放整个大数据包长度的字节所占的长度
+    lengthAdjustmen：长度调节值，在总长被定义为包含包头长度时，修正信息长度。
+    initialBytesToStrip：跳过的字节数，根据需要我们跳过lengthFieldLength个字节，以便接收端直接接受到不含“长度属性”的内容
+    failFast ：为true，当frame长度超过maxFrameLength时立即报TooLongFrameException异常，为false，读取完整个帧再报异常
+     */
     private static final int MAX_FRAME_LENGTH = 1024 * 1024 * 10;
-    private static final int LENGTH_FIELD_LENGTH = 4;
     private static final int LENGTH_FIELD_OFFSET = 2;
+    private static final int LENGTH_FIELD_LENGTH = 4;
     private static final int LENGTH_ADJUSTMENT = 0;
     private static final int INITIAL_BYTES_TO_STRIP = 0;
 
@@ -43,10 +53,26 @@ public class ServerApp {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         protected void initChannel(SocketChannel ch) throws Exception {
 
-                            ch.pipeline().addLast(new CustomDecoder(
+                            /**
+                             * int maxFrameLength
+                             * int lengthFieldOffset
+                             * int lengthFieldLength
+                             * int lengthAdjustment
+                             * int initialBytesToStrip
+                             * boolean failFast
+                             */
+
+                            /*ch.pipeline().addLast(new CustomDecoder(
                                     MAX_FRAME_LENGTH,
-                                    LENGTH_FIELD_LENGTH,
                                     LENGTH_FIELD_OFFSET,
+                                    LENGTH_FIELD_LENGTH,
+                                    LENGTH_ADJUSTMENT,
+                                    INITIAL_BYTES_TO_STRIP,
+                                    false));*/
+                            ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(
+                                    MAX_FRAME_LENGTH,
+                                    LENGTH_FIELD_OFFSET,
+                                    LENGTH_FIELD_LENGTH,
                                     LENGTH_ADJUSTMENT,
                                     INITIAL_BYTES_TO_STRIP,
                                     false));
