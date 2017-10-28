@@ -1,5 +1,6 @@
-package com.ljja.custom;
+package com.ljja.encoder;
 
+import com.ljja.protocol.CustomMsg;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

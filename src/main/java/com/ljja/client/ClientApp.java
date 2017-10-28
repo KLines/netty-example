@@ -1,5 +1,7 @@
-package com.ljja.custom;
+package com.ljja.client;
 
+import com.ljja.protocol.CustomMsg;
+import com.ljja.encoder.CustomEncoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;

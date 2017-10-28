@@ -1,5 +1,6 @@
-package com.ljja.custom;
+package com.ljja.server;
 
+import com.ljja.encoder.CustomDecoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;

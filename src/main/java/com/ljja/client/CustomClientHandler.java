@@ -1,5 +1,6 @@
-package com.ljja.custom;
+package com.ljja.client;
 
+import com.ljja.protocol.CustomMsg;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
