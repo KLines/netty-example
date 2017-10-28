@@ -37,14 +37,13 @@ public class ClientApp {
             //异步连接到服务
             ChannelFuture future = b.connect(HOST, PORT).sync();
 
-
             Channel clientChannel = future.channel();
 
             int currentCount = 10;
 
             while (currentCount > 0) {
 
-                Thread.sleep(1000);
+                //Thread.sleep(1000);
 
                 clientChannel.writeAndFlush("Hello Netty Server");
 
@@ -58,7 +57,7 @@ public class ClientApp {
 
                 clientChannel.writeAndFlush(msgEntity);
 
-                currentCount -= 1;
+                //currentCount -= 1;
             }
 
             System.out.println("Close Channel");

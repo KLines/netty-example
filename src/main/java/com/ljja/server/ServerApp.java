@@ -17,7 +17,7 @@ import java.net.InetSocketAddress;
  */
 public class ServerApp {
 
-    private static final int MAX_FRAME_LENGTH = 1024 * 1024;
+    private static final int MAX_FRAME_LENGTH = 1024 * 1024 * 10;
     private static final int LENGTH_FIELD_LENGTH = 4;
     private static final int LENGTH_FIELD_OFFSET = 2;
     private static final int LENGTH_ADJUSTMENT = 0;

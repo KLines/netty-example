@@ -5,19 +5,15 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 
-
 public class CustomDecoder extends LengthFieldBasedFrameDecoder {
 
     //判断传送客户端传送过来的数据是否按照协议传输，头部信息的大小应该是 byte+byte+int = 1+1+4 = 6
     private static final int HEADER_SIZE = 6;
-
     private byte type;
-
     private byte flag;
-
     private int length;
-
     private String body;
+    private String encoding = "UTF-8";
 
     /**
      * @param maxFrameLength      解码时，处理每个帧数据的最大长度
@@ -65,10 +61,8 @@ public class CustomDecoder extends LengthFieldBasedFrameDecoder {
 
         buf.readBytes(req);
 
-        body = new String(req, "UTF-8");
+        body = new String(req, encoding);
 
-        CustomMsg customMsg = new CustomMsg(type, flag, length, body);
-
-        return customMsg;
+        return new CustomMsg(type, flag, length, body);
     }
 }

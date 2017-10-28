@@ -1,7 +1,7 @@
 package com.ljja.protocol;
 
 /**
- * Created by Administrator on 2017/10/28.
+ * 消息协议数据包
  */
 public class CustomMsg {
 
