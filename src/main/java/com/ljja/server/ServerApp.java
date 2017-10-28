@@ -1,5 +1,6 @@
 package com.ljja.server;
 
+import com.ljja.encoder.CustomEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -15,6 +16,10 @@ import java.net.InetSocketAddress;
 /**
  * http://blog.csdn.net/linuu/article/details/51371595
  * http://blog.163.com/linfenliang@126/blog/static/127857195201210821145721/
+ *
+ * 重连
+ * http://blog.csdn.net/z69183787/article/details/52625095
+ * http://blog.csdn.net/chdhust/article/details/51649184
  */
 public class ServerApp {
 
@@ -69,6 +74,9 @@ public class ServerApp {
                                     false));
 
                             ch.pipeline().addLast(new CustomServerHandler());
+
+                            ch.pipeline().addLast(new CustomEncoder());
+
                         }
                     }).option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);

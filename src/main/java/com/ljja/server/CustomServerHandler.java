@@ -31,6 +31,10 @@ public class CustomServerHandler extends SimpleChannelInboundHandler<Object> {
 
         System.out.println(String.format("ip:%s %s", ctx.channel().remoteAddress(), entityMessage));
 
+        entityMessage.setBody(String.format("server:%s orogin:%s", System.currentTimeMillis(), entityMessage.getBody()));
+
+        ctx.channel().writeAndFlush(entityMessage);
+
         /*if (msg instanceof CustomMsg) {
             CustomMsg customMsg = (CustomMsg) msg;
             System.out.println(String.format("client:%s type:%s flag:%s len:%s data:%s",
