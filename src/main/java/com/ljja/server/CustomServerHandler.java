@@ -15,24 +15,17 @@ public class CustomServerHandler extends SimpleChannelInboundHandler<Object> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
-
         ByteBuf buf = (ByteBuf) msg;
-
         type = buf.readByte();
         flag = buf.readByte();
         length = buf.readInt();
-
         int len = buf.readableBytes();
         byte[] req = new byte[len];
         buf.readBytes(req);
         body = new String(req, encoding);
-
         CustomMsg entityMessage = new CustomMsg(type, flag, length, body);
-
         System.out.println(String.format("ip:%s %s", ctx.channel().remoteAddress(), entityMessage));
-
         entityMessage.setBody(String.format("server:%s orogin:%s", System.currentTimeMillis(), entityMessage.getBody()));
-
         ctx.channel().writeAndFlush(entityMessage);
 
         /*if (msg instanceof CustomMsg) {

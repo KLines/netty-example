@@ -18,7 +18,6 @@ public class CustomMsg {
     private String body;
 
     public CustomMsg() {
-
     }
 
     public CustomMsg(byte type, byte flag, int length, String body) {

@@ -16,7 +16,7 @@ import java.net.InetSocketAddress;
 /**
  * http://blog.csdn.net/linuu/article/details/51371595
  * http://blog.163.com/linfenliang@126/blog/static/127857195201210821145721/
- *
+ * <p>
  * 重连
  * http://blog.csdn.net/z69183787/article/details/52625095
  * http://blog.csdn.net/chdhust/article/details/51649184
@@ -43,20 +43,26 @@ public class ServerApp {
         this.port = port;
     }
 
-    public void start() {
+    public static void main(String[] args) throws Exception {
+        int port;
+        if (args.length > 0) {
+            port = Integer.parseInt(args[0]);
+        } else {
+            port = 8080;
+        }
+        new ServerApp(port).start();
+    }
 
+    public void start() {
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
-
         try {
-
             ServerBootstrap sbs = new ServerBootstrap()
                     .group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .localAddress(new InetSocketAddress(port))
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         protected void initChannel(SocketChannel ch) throws Exception {
-
                             /**
                              * int maxFrameLength
                              * int lengthFieldOffset
@@ -72,40 +78,23 @@ public class ServerApp {
                                     LENGTH_ADJUSTMENT,
                                     INITIAL_BYTES_TO_STRIP,
                                     false));
-
                             ch.pipeline().addLast(new CustomServerHandler());
-
                             ch.pipeline().addLast(new CustomEncoder());
 
                         }
                     }).option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
-
             System.out.println("绑定端口,开始接收TCP连接");
             ChannelFuture future = sbs.bind(port).sync();
-
             System.out.println("服务监听端口:" + port);
             future.channel().closeFuture().sync();
-
             System.out.println("Server Exit");
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-
-        int port;
-
-        if (args.length > 0) {
-            port = Integer.parseInt(args[0]);
-        } else {
-            port = 8080;
-        }
-
-        new ServerApp(port).start();
     }
 }
