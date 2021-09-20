@@ -11,7 +11,7 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 public class ClientApp {
 
-    static final String HOST = System.getProperty("host", "192.168.1.102");
+    static final String HOST = System.getProperty("host", "127.0.0.1");
     static final int PORT = Integer.parseInt(System.getProperty("port", "8080"));
     static final int SIZE = Integer.parseInt(System.getProperty("size", "256"));
     private static final int MAX_FRAME_LENGTH = 1024 * 1024 * 10;
@@ -46,7 +46,7 @@ public class ClientApp {
             //异步连接到服务
             ChannelFuture future = b.connect(HOST, PORT).sync();
             Channel clientChannel = future.channel();
-            int currentCount = 10;
+            int currentCount = 6;
             while (currentCount > 0) {
                 Thread.sleep(1000);
                 String msgBody = String.format("client %s", System.currentTimeMillis());
@@ -58,7 +58,7 @@ public class ClientApp {
                 //发送数据
                 clientChannel.writeAndFlush(msgEntity);
                 //System.out.println(msgBody);
-                //currentCount -= 1;
+                currentCount -= 1;
             }
             System.out.println("Close Channel");
             clientChannel.closeFuture().sync();
