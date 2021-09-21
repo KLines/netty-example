@@ -1,6 +1,7 @@
 package com.ljja.client;
 
 import com.ljja.encoder.CustomEncoder;
+import com.ljja.exception.ExceptionCaughtInboundHandler;
 import com.ljja.protocol.CustomMsg;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -41,6 +42,7 @@ public class ClientApp {
                             ch.pipeline().addLast(new CustomClientHandler());
                             //给服务端发送数据时编码
                             ch.pipeline().addLast(new CustomEncoder());
+                            ch.pipeline().addLast(new ExceptionCaughtInboundHandler());
                         }
                     });
             //异步连接到服务
